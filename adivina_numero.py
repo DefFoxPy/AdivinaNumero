@@ -39,7 +39,7 @@ def leer_entero():
 		valor(int): El entero ingresado por el usuario
 	"""
 	while True:
-		valor = input('Ingrese un número entero: ')
+		valor = input()
 
 		try:
 			valor = int(valor) 
@@ -59,6 +59,7 @@ def obtener_intento(inferior: int, superior: int) -> int:
 		valor(int): El intento del usuario
 	"""
 	while True:
+		print('\nIngrese su intento', end=': ')
 		valor = leer_entero()
 
 		if valor >= inferior and valor <= superior:
@@ -78,24 +79,25 @@ def jugarde_nuevo():
 def main():
 	""" Función principal del programa """
 
-	# --- Definición de constantes para el juego ---
 	INFERIOR = 1          # rango inferior del intervalo en el cual estará el número ha adivinar
 	SUPERIOR = 20         # rango superior del intervalo en el cual estará el número ha adivinar
 	INTENTOS_MAXIMOS = 5  # número de intentos maximos que tiene el usuario apara adivinar el número secreto
 
-	# --- Ciclo principal del programa ---
 	while True: 
 
-		intentos = 0          # número de intentos realizados por el usuario
-		hecho = False         # variable que controlar el ciclo principal del juego
-		usuario_gano = False  # por default el jugador aún no ha ganado la partida
+	# --- Fase de inicialización ---
+
+		intentos = 0          # representa el intento actual del usuario
+		hecho = False         # determina si la partida debe o no continuar
+		usuario_gano = False  # determina si el jugador ha ganado la partida
 
 		numero_secreto = generar_numero(INFERIOR, SUPERIOR)
-
 		mensaje_bienvenida(INFERIOR, SUPERIOR, INTENTOS_MAXIMOS)
 
-		# --- Ciclo principal del juego --- 
-		while not hecho: 
+	# --- Fase de ejecución ---
+
+		while not hecho and not usuario_gano: 
+
 			print('\nIntentos restantes:', INTENTOS_MAXIMOS - intentos)
 			opcion = obtener_intento(INFERIOR, SUPERIOR)
 
@@ -105,12 +107,11 @@ def main():
 				print('\nEl número que ingresaste es bajo')
 			else: 
 				usuario_gano = True # El usuario adivinó el número
-				hecho = True
 
 			intentos += 1 
+			hecho = usuario_gano or INTENTOS_MAXIMOS == intentos;
 
-			if INTENTOS_MAXIMOS == intentos: 
-				hecho = True # El usuario se quedó sin intentos
+	# --- Fase de finalizacion ---
 
 		if not usuario_gano: 
 			print('\nLastima te quedaste sin intentos, el número era:', numero_secreto)
@@ -118,7 +119,10 @@ def main():
 			print('\nFelicidades adivinaste el número en {} intentos'.format(intentos))
 
 		if not jugarde_nuevo():
-			break # el usuario no quizo empezar otra partida
+			break
+
+	clear()
+	print('Gracias por Jugar') 
 
 if __name__ == '__main__':
 	main()
