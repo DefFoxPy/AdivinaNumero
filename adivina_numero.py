@@ -15,7 +15,7 @@ def generar_numero(inferior: int, superior: int) -> int:
 		inferior(int): Representa valor inferior del intervalo
 		superior(int): Representa valor superior del intervalo
 
-	Returts:
+	Returns:
 		numero(int): Numero que el usuario deberá adivinar
 	"""
 	numero = randint(inferior, superior + 1)
